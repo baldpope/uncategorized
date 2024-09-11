@@ -15,8 +15,8 @@ There is a bit of a pre-requisite to define the UUID for Credentials stored in T
 Once you have a local copy of the plugin database, you can create scans based on the CVE ID
 
 
-## rerun_Scan.py:
+## rerun_scan.py: (placeholder)
 essentially the same as the previous, but you'll need to take the scan template ID from the create_scan.py and pass it into the rerun_scan.py as an arg
 
-## export_report.py:
+## export_report.py: (placeholder)
 Another one that should be fairly obvious, take a specific template and scan ID and generate an HTML output report from the referenced scan.
