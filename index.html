@@ -545,10 +545,14 @@
                     break;
             }
             
-            // Clear scene
+            // Clear scene - remove all game objects
             cellObjects.forEach(obj => scene.remove(obj));
             const sprites = scene.children.filter(c => c.type === 'Sprite');
             sprites.forEach(s => scene.remove(s));
+            const flags = scene.children.filter(c => c.geometry && c.geometry.type === 'ConeGeometry');
+            flags.forEach(f => scene.remove(f));
+            const boards = scene.children.filter(c => c.geometry && c.geometry.type === 'BoxGeometry' && c.position.y === -0.4);
+            boards.forEach(b => scene.remove(b));
             
             createBoard();
             updateUI();
