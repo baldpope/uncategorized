@@ -546,11 +546,31 @@
             }
             
             // Clear scene - remove all game objects
+            // First, remove all flags from cell userData
+            cellObjects.forEach(cell => {
+                if (cell.userData.flag) {
+                    scene.remove(cell.userData.flag);
+                    cell.userData.flag = null;
+                }
+                if (cell.userData.numberSprite) {
+                    scene.remove(cell.userData.numberSprite);
+                    cell.userData.numberSprite = null;
+                }
+            });
+            
+            // Remove all cell objects
             cellObjects.forEach(obj => scene.remove(obj));
+            cellObjects = [];
+            
+            // Remove any remaining sprites (number displays)
             const sprites = scene.children.filter(c => c.type === 'Sprite');
             sprites.forEach(s => scene.remove(s));
+            
+            // Remove any remaining flags (cone geometries)
             const flags = scene.children.filter(c => c.geometry && c.geometry.type === 'ConeGeometry');
             flags.forEach(f => scene.remove(f));
+            
+            // Remove board bases
             const boards = scene.children.filter(c => c.geometry && c.geometry.type === 'BoxGeometry' && c.position.y === -0.4);
             boards.forEach(b => scene.remove(b));
             
