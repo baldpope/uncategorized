@@ -218,6 +218,15 @@
             board: 0x8b4513,
             boardLight: 0xcd853f
         };
+
+        function getLayerColor(y, variant = 0) {
+            const hue = (y / Math.max(boardDepth, 1)) * 0.85;
+            const saturation = 0.55;
+            const lightness = variant === 0 ? 0.46 : 0.60;
+            const color = new THREE.Color();
+            color.setHSL(hue, saturation, lightness);
+            return color.getHex();
+        }
         
         // Number colors
         const NUMBER_COLORS = [
@@ -331,7 +340,7 @@
                         const isLight = (x + y + z) % 2 === 0;
                         const geometry = new THREE.BoxGeometry(cellSize, 0.5, cellSize);
                         const material = new THREE.MeshStandardMaterial({ 
-                            color: isLight ? COLORS.boardLight : COLORS.board,
+                            color: isLight ? getLayerColor(y, 1) : getLayerColor(y, 0),
                             roughness: 0.7
                         });
                         const cell = new THREE.Mesh(geometry, material);
@@ -718,14 +727,14 @@
                 const cell = intersects[0].object;
                 if (hoveredCell !== cell && !cell.userData.revealed) {
                     if (hoveredCell) {
-                        hoveredCell.material.color.setHex(hoveredCell.userData.isLight ? COLORS.boardLight : COLORS.board);
+                        hoveredCell.material.color.setHex(hoveredCell.userData.isLight ? getLayerColor(hoveredCell.userData.y, 1) : getLayerColor(hoveredCell.userData.y, 0));
                     }
                     hoveredCell = cell;
                     hoveredCell.material.color.setHex(COLORS.cellHover);
                 }
             } else {
                 if (hoveredCell) {
-                    hoveredCell.material.color.setHex(hoveredCell.userData.isLight ? COLORS.boardLight : COLORS.board);
+                    hoveredCell.material.color.setHex(hoveredCell.userData.isLight ? getLayerColor(hoveredCell.userData.y, 1) : getLayerColor(hoveredCell.userData.y, 0));
                     hoveredCell = null;
                 }
             }
